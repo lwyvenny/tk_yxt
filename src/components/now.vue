@@ -1,5 +1,119 @@
 <template>
-  <div>
-    <h1>正在热映</h1>
+  <div class="now-list">
+    <p class="film-title">正在热映</p>
+    <ul>
+      <li v-for="film in filmList" :key="film.filmId">
+        <div class="left">
+          <img :src="film.poster">
+        </div>
+        <div class="center">
+          <div class="name">{{film.name}}</div>
+          <div class="actors">{{getActors(film.actors)}}</div>
+        </div>
+        <div class="right">
+          <div class="grade" :style="{ visibility : film.grade ? 'initial' : 'hidden' }">{{film.grade}}</div>
+          <button class="buy">购票</button>
+        </div>
+      </li>
+    </ul>
+    <div class="more">
+      查看更多影片
+    </div>
   </div>
 </template>
+
+<script>
+import { mapState, mapActions } from 'vuex'
+export default {
+  name: 'Now',
+  computed: {
+    ...mapState(['filmList'])
+  },
+  methods: {
+    ...mapActions(['getFilmList']),
+    getActors (actors) {
+      let tmp = actors.map(item =>{
+        return item.name
+      })
+      return tmp.join('.')
+    },
+  },
+  created () {
+    this.getFilmList()
+  }
+
+}
+</script>
+
+<style lang="scss">
+@import '../assets/styles/mixin.scss';
+.now-list{
+  .film-title{
+    background: #faf7fe;
+    line-height: 40px;
+    font-size: 14px;
+    padding: 0 15px;
+    font-weight: 600;
+    color: #7d1796;
+  }
+  ul{
+    padding: 15px 10px;
+    li{
+      @include border-bottom;
+      display: flex;
+      height: 96px;
+      padding: 15px 0;
+      .left{
+        img{
+          width: 72px;
+          height: 96px;
+          display: block;
+        }
+      }
+      .center{
+        flex: 1;
+        overflow: hidden;
+        padding-left: 15px;
+        .name{
+          font-size: 14px;
+          color: #000000;
+          font-weight: 600;
+        }
+        > div{
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          width: 130px;
+          font-size: 12px;
+          line-height: 20px;
+          color: #777;
+        }
+      }
+      .right{
+        .grade{
+          font-size: 26px;
+          font-weight: bold;
+          padding-left: 18px;
+          color: #830fa6;
+          line-height: 35px;
+          height: 35px;
+        }
+        .buy{
+          width: 50px;
+          line-height: 24px;
+          font-weight: bold;
+          font-size: 14px;
+          border: 1px solid #830fa6;
+          color: #830fa6;
+          background: #fff;
+          border-radius: 5px;
+          margin-top: 10px;
+        }
+      }
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+}
+</style>

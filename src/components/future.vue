@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <h1>即将热映</h1>
+  <div class="now-list">
+    <p class="film-title">即将上映</p>
   </div>
 </template>

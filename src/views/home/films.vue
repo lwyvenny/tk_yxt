@@ -12,14 +12,13 @@
   </div>
 </template>
 
-
 <script>
 import Now from '../../components/now.vue'
 import Future from '../../components/future.vue'
 export default {
 
   name: 'Films',
-  components:{
+  components: {
     Now,
     Future
   }

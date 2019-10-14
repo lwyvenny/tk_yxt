@@ -1,0 +1,26 @@
+@mixin tri{
+  position: relative;
+  &::after{
+    position: absolute;
+    content: '';
+    top: 22px;
+    right: 18px;
+    border-top: 8px solid #FFF;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+  }
+}
+@mixin border-top{
+
+  position: relative;
+  &::before{
+    position: absolute;
+    content: '';
+    height: 2px;
+    width: 80%;
+    top: 0;
+    left: 10px;
+    background: #8a16ad;
+    transform: translateY(0);
+  }
+}

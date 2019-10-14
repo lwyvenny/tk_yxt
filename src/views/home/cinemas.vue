@@ -14,18 +14,23 @@
           <span>{{cancelText}}</span>
         </template>
       </van-search>
+      <div class="select">全城
+      </div>
       <div class="search-box">
-        <div class="area-title">
-          <span>您可能想去的影院</span>
-        </div>
-        <div v-for="cinemas in cinemaList" :key="cinemas.cinemaId" class="cinemas-cont">
-          <router-link class="a" tag="div" to="/particulars/dawd">
-            <div class="cinemas-name">
-              <div>{{cinemas.name}}</div>
-              <div class="cinemas-money"><span>￥</span>{{cinemas.lowPrice/100}}<span>元起</span></div>
-            </div>
-            <p class="cinemas-site">{{cinemas.address}}</p>
-          </router-link>
+        <div>
+          <div v-for="cinemas in cinemaList" :key="cinemas.cinemaId" class="cinemas-cont">
+            <router-link class="a" tag="div" to="/particulars/dawd">
+              <div class="cinemas-name">
+                <div>{{cinemas.name}}</div>
+                <div class="cinemas-money">
+                  <span>￥</span>
+                  {{cinemas.lowPrice/100}}
+                  <span>元起</span>
+                </div>
+              </div>
+              <p class="cinemas-site">{{cinemas.address}}</p>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +39,7 @@
 <script>
 // import axios from 'axios'
 import { mapState, mapActions } from "vuex";
+import BScroll from "better-scroll";
 export default {
   data() {
     return {
@@ -50,6 +56,9 @@ export default {
   },
   mounted() {
     this.getCinemaLis();
+    let bs = new BScroll(".search-box", {
+      probeType: 3
+    });
   }
 };
 </script>
@@ -61,26 +70,18 @@ export default {
   height: 100%;
   .cinema-list {
     .search-box {
+      height: 500px;
       width: 95%;
       margin: 0 15px;
       display: flex;
       flex-direction: column;
-      .area-title {
-        // @include border-bottom;
-        border-bottom: 1px solid #8a16ad;
-        line-height: 40px;
-        width: 95%;
-        padding: 0;
-        color: #83149f;
-        font-size: 12px;
-      }
+      overflow: hidden;
       .cinemas-name {
         font-size: 14px;
         display: flex;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
       }
       .cinemas-cont {
         @include border-bottom;
@@ -92,9 +93,9 @@ export default {
           margin-left: 10px;
           color: #ff5f16;
 
-            span{
-              font-size: 10px;
-            }
+          span {
+            font-size: 10px;
+          }
         }
         .a {
           overflow: hidden;
@@ -110,10 +111,30 @@ export default {
       }
     }
 
-    .box .van-search__content {
-      border: 1px solid #83149f;
-      border-radius: 6px;
-      height: 30px;
+    .box {
+      background: #fff;
+
+      .van-search__content {
+        border: 1px solid #83149f;
+        border-radius: 6px;
+        height: 30px;
+        z-index: 999;
+        background: #fff;
+      }
+    }
+
+    .select {
+      margin: 5px 40%;
+        position: relative;
+      ::after {
+        position: absolute;
+        content: "";
+        top: 22px;
+        right: 18px;
+        border-top: 8px solid #fff;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+      }
     }
   }
 }

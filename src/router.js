@@ -5,6 +5,7 @@ import Home from './views/home/index.vue'
 import Films from './views/home/films.vue'
 import Cinemas from './views/home/cinemas.vue'
 import Center from './views/home/center.vue'
+
 import Login from './views/login/index.vue'
 import City from './views/city/index.vue'
 import Film from './views/film/index.vue'

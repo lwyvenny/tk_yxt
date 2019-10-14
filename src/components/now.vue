@@ -26,49 +26,47 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  name: "Now",
+  name: 'Now',
   computed: {
-    ...mapState(["filmList", "filmTotal"])
+    ...mapState(['filmList', 'filmTotal'])
   },
-  data() {
+  data () {
     return {
       curPageNum: 1,
       type: 1
-    };
-  },
-  methods: {
-    ...mapActions(["getFilmList"]),
-    getActors(actors) {
-      let tmp = actors.map(item => {
-        return item.name;
-      });
-      return tmp.join(".");
-    },
-    handleMore() {
-      let totalPage = Math.ceil(this.filmTotal / 5);
-      if (this.curPageNum >= totalPage) {
-        this.$refs.more.style.display = "none";
-      }
-      this.curPageNum++;
-      this.getFilmList({
-        pageNum: this.curPageNum,
-        type: this.type
-      });
     }
   },
-  created() {
-    if(this.filmList.length <= 0 ){
-
+  methods: {
+    ...mapActions(['getFilmList']),
+    getActors (actors) {
+      let tmp = actors.map(item => {
+        return item.name
+      })
+      return tmp.join('.')
+    },
+    handleMore () {
+      let totalPage = Math.ceil(this.filmTotal / 5)
+      if (this.curPageNum >= totalPage) {
+        this.$refs.more.style.display = 'none'
+      }
+      this.curPageNum++
       this.getFilmList({
         pageNum: this.curPageNum,
         type: this.type
       })
-
+    }
+  },
+  created () {
+    if (this.filmList.length <= 0) {
+      this.getFilmList({
+        pageNum: this.curPageNum,
+        type: this.type
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

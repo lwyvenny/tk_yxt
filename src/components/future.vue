@@ -58,12 +58,11 @@ export default {
     }
   },
   created () {
-    if(this.filmListT.length <= 0){
+    if (this.filmListT.length <= 0) {
       this.getFilmListT({
-      pageNum: this.curPageNumT
-    })
+        pageNum: this.curPageNumT
+      })
     }
-
   }
 
 }

@@ -4,51 +4,77 @@
     <ul>
       <li v-for="film in filmList" :key="film.filmId">
         <div class="left">
-          <img :src="film.poster">
+          <img :src="film.poster" />
         </div>
         <div class="center">
           <div class="name">{{film.name}}</div>
-          <div class="actors">{{getActors(film.actors)}}</div>
+          <div class="actors">{{ film.actors ? getActors(film.actors) : '' }}</div>
         </div>
         <div class="right">
-          <div class="grade" :style="{ visibility : film.grade ? 'initial' : 'hidden' }">{{film.grade}}</div>
+          <div
+            class="grade"
+            :style="{ visibility : film.grade ? 'initial' : 'hidden' }"
+          >{{film.grade}}</div>
           <button class="buy">购票</button>
         </div>
       </li>
     </ul>
-    <div class="more">
-      查看更多影片
+    <div class="more" ref="more">
+      <span @click="handleMore">查看更多影片</span>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  name: 'Now',
+  name: "Now",
   computed: {
-    ...mapState(['filmList'])
+    ...mapState(["filmList", "filmTotal"])
+  },
+  data() {
+    return {
+      curPageNum: 1,
+      type: 1
+    };
   },
   methods: {
-    ...mapActions(['getFilmList']),
-    getActors (actors) {
-      let tmp = actors.map(item =>{
-        return item.name
-      })
-      return tmp.join('.')
+    ...mapActions(["getFilmList"]),
+    getActors(actors) {
+      let tmp = actors.map(item => {
+        return item.name;
+      });
+      return tmp.join(".");
     },
+    handleMore() {
+      let totalPage = Math.ceil(this.filmTotal / 5);
+      if (this.curPageNum >= totalPage) {
+        this.$refs.more.style.display = "none";
+      }
+      this.curPageNum++;
+      this.getFilmList({
+        pageNum: this.curPageNum,
+        type: this.type
+      });
+    }
   },
-  created () {
-    this.getFilmList()
-  }
+  created() {
+    if(this.filmList.length <= 0 ){
 
-}
+      this.getFilmList({
+        pageNum: this.curPageNum,
+        type: this.type
+      })
+
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-@import '../assets/styles/mixin.scss';
-.now-list{
-  .film-title{
+@import "../assets/styles/mixin.scss";
+.now-list {
+  .film-title {
     background: #faf7fe;
     line-height: 40px;
     font-size: 14px;
@@ -56,30 +82,30 @@ export default {
     font-weight: 600;
     color: #7d1796;
   }
-  ul{
+  ul {
     padding: 15px 10px;
-    li{
+    li {
       @include border-bottom;
       display: flex;
       height: 96px;
       padding: 15px 0;
-      .left{
-        img{
+      .left {
+        img {
           width: 72px;
           height: 96px;
           display: block;
         }
       }
-      .center{
+      .center {
         flex: 1;
         overflow: hidden;
         padding-left: 15px;
-        .name{
+        .name {
           font-size: 14px;
           color: #000000;
           font-weight: 600;
         }
-        > div{
+        > div {
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
@@ -89,8 +115,8 @@ export default {
           color: #777;
         }
       }
-      .right{
-        .grade{
+      .right {
+        .grade {
           font-size: 26px;
           font-weight: bold;
           padding-left: 18px;
@@ -98,7 +124,7 @@ export default {
           line-height: 35px;
           height: 35px;
         }
-        .buy{
+        .buy {
           width: 50px;
           line-height: 24px;
           font-weight: bold;
@@ -113,6 +139,20 @@ export default {
       &:last-child::after {
         display: none;
       }
+    }
+  }
+  .more {
+    span {
+      display: block;
+      @include more;
+      width: 45%;
+      height: 26px;
+      margin: 5px auto;
+      text-align: center;
+      background: #faf7fe;
+      color: #744ca6;
+      font-size: 12px;
+      line-height: 26px;
     }
   }
 }

@@ -8,7 +8,8 @@ let store = new Vuex.Store({
   state: {
     filmList: [], // 影片列表
     filmTotal: 1,
-    filmListT: []
+    filmListT: [],
+    cinemaList: []
   },
   mutations: {
     setFilmList (state, payload) {
@@ -19,6 +20,9 @@ let store = new Vuex.Store({
     },
     setFilmListT (state, payload) {
       state.filmListT = payload
+    },
+    setCinemaList (state, payload) {
+      state.cinemaList = payload
     }
   },
   actions: {
@@ -63,6 +67,27 @@ let store = new Vuex.Store({
           commit('setFilmTotal', result.data.total)
         }
       })
+    },
+    getCinemaLis ({ commit, state }, payload) {
+      Axios.get('https://m.maizuo.com/gateway', {
+        params: {
+          cityId: 440300,
+          ticketFlag: 1,
+          pageSize: 5,
+          k: 9508163
+        },
+        headers: {
+          'X-Client-Info':
+            '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
+          'X-Host': 'mall.film-ticket.cinema.list'
+        }
+      })
+        .then(response => {
+          let result = response.data
+          if (result.status === 0) {
+            commit('setCinemaList', result.data.cinemas)
+          }
+        })
     }
   }
 

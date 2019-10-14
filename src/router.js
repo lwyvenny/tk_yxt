@@ -9,6 +9,7 @@ import Center from './views/home/center.vue'
 import Login from './views/login/index.vue'
 import City from './views/city/index.vue'
 import Film from './views/film/index.vue'
+import Particulars from './views/particulars/index.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,10 @@ export default new Router({
     {
       path: './film/:id',
       component: Film
+    },
+    {
+      path: '/particulars/:id',
+      component: Particulars
     }
   ]
 })

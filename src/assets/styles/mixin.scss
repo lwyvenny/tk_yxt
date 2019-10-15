@@ -52,3 +52,16 @@
     display: inline-block;
   }
 }
+@mixin back{
+  &::after{
+    content: "";
+    width: 13px;
+    height: 13px;
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    border-left: 3px solid #FFF;
+    border-bottom: 3px solid #FFF;
+    transform: rotate(45deg);
+  }
+}

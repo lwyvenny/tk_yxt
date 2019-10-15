@@ -1,5 +1,5 @@
 <template>
-  <div class="page-films">
+  <div class="page-city">
     <!-- 一级路由页面 -->
       <div class="header">
         <p><i class="iconfont icon-dayu" @click="goBack"></i>选择城市</p>
@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss">
 @import '../../assets/styles/mixin.scss';
-.page-films{
+.page-city{
   width: 100%;
   height: 100%;
   background: #ececec;

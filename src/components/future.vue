@@ -1,8 +1,8 @@
 <template>
-  <div class="now-list">
+  <div class="future-list">
     <p class="film-title">即将上映</p>
     <ul>
-      <li v-for="film in filmListT" :key="film.filmId">
+      <router-link tag="li" :to="`/film/${film.filmId}`" v-for="film in filmListT" :key="film.filmId">
         <div class="left">
           <img :src="film.poster">
         </div>
@@ -12,7 +12,7 @@
           <div class="emp"></div>
           <div class="time">上映日期：{{getTime(film.premiereAt)}}</div>
         </div>
-      </li>
+      </router-link>
     </ul>
     <div class="more" ref="more">
       <span @click="handleMoreT">查看更多影片</span>
@@ -60,8 +60,11 @@ export default {
   created () {
     if (this.filmListT.length <= 0) {
       this.getFilmListT({
-        pageNum: this.curPageNumT
+        pageNum: this.curPageNumT,
+        pageSize: 3
       })
+    } else {
+      this.curPageNumT = this.filmListT.length / 3
     }
   }
 
@@ -70,7 +73,7 @@ export default {
 
 <style lang="scss">
 @import '../assets/styles/mixin.scss';
-.now-list{
+.future-list{
   .film-title{
     background: #faf7fe;
     line-height: 40px;

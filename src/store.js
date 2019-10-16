@@ -5,11 +5,34 @@ import Axios from 'axios'
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
+  namespaced: true,
   state: {
     filmList: [], // 影片列表
     filmTotal: 1,
     filmListT: [],
-    cinemaList: []
+    cinemaList: [],
+    cities: []
+  },
+  getters: {
+    cityList (state) {
+      let res = []
+      state.cities.forEach(city => {
+        let py = city.pinyin.charAt(0).toUpperCase()
+        let index = res.findIndex(item => item.py === py)
+        if (index > -1) {
+          res[index].list.push(city)
+        } else {
+          let obj = {
+            py: py,
+            list: [city]
+          }
+          res.push(obj)
+        }
+      })
+      return res.sort((a, b) => {
+        return a.py.charCodeAt() - b.py.charCodeAt()
+      })
+    }
   },
   mutations: {
     setFilmList (state, payload) {
@@ -23,9 +46,25 @@ let store = new Vuex.Store({
     },
     setCinemaList (state, payload) {
       state.cinemaList = payload
+    },
+    setCities (state, payload) {
+      state.cities = payload
     }
   },
   actions: {
+    getCities ({ commit, state }, payload) {
+      Axios.get('https://m.maizuo.com/gateway?k=6826501', {
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156975031917686675327153"}',
+          'X-Host': 'mall.film-ticket.city.list'
+        }
+      }).then(response => {
+        let result = response.data
+        if (result.status === 0) {
+          commit('setCities', result.data.cities)
+        }
+      })
+    },
     getFilmList ({ commit, state }, payload) {
       Axios.get('https://m.maizuo.com/gateway', {
         params: {

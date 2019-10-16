@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
+import { Toast } from 'vant'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ let store = new Vuex.Store({
     filmList: [], // 影片列表
     filmTotal: 1,
     filmListT: [],
-    cinemaList: []
+    cinemaList: [],
+    copycinemaList: []
   },
   mutations: {
     setFilmList (state, payload) {
@@ -23,9 +25,13 @@ let store = new Vuex.Store({
     },
     setCinemaList (state, payload) {
       state.cinemaList = payload
+    },
+    copycinemaList (state, payload) {
+      state.copycinemaList = payload
     }
   },
   actions: {
+
     getFilmList ({ commit, state }, payload) {
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
@@ -69,6 +75,11 @@ let store = new Vuex.Store({
       })
     },
     getCinemaLis ({ commit, state }, payload) {
+      Toast.loading({
+        mask: true,
+        duration: 0, // 不让他自动消失
+        message: '加载中...'
+      })
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
           cityId: 440300,
@@ -86,6 +97,9 @@ let store = new Vuex.Store({
           let result = response.data
           if (result.status === 0) {
             commit('setCinemaList', result.data.cinemas)
+            commit('copycinemaList', result.data.cinemas)
+            // 控制 Toast 消失
+            Toast.clear()
           }
         })
     }

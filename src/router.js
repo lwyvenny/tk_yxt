@@ -10,6 +10,7 @@ import Login from './views/login/index.vue'
 import City from './views/city/index.vue'
 import Film from './views/film/index.vue'
 import Particulars from './views/particulars/index.vue'
+import CinmeasDetails from './views/cinmasdetails/index.vue'
 
 Vue.use(Router)
 
@@ -52,6 +53,10 @@ export default new Router({
     {
       path: '/particulars/:id',
       component: Particulars
+    },
+    {
+      path: '/cinemas/:id',
+      component :CinmeasDetails
     }
   ]
 })

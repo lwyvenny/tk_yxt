@@ -34,7 +34,7 @@
       <div class="search-box" v-if="listShow">
         <div>
           <div v-for="cinemas in cinemaList" :key="cinemas.cinemaId" class="cinemas-cont">
-            <router-link class="a" tag="div" to="/particulars/dawd">
+            <router-link class="a"  :to="`/cinemas/${cinemas.cinemaId}`">
               <div class="cinemas-name">
                 <div>{{cinemas.name}}</div>
                 <div class="cinemas-money">
@@ -62,7 +62,6 @@
   </div>
 </template>
 <script>
-// import axios from 'axios'
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Toast } from "vant";
 import BScroll from "better-scroll";
@@ -83,15 +82,16 @@ export default {
   computed: {
     ...mapState(["cinemaList"]),
     ...mapState(["copycinemaList"]),
-    // ...mapState(["copycinemaList"]),
     // 地区集合
     areaList() {
+      //console.log(this.copycinemaList)
       let tmp = this.copycinemaList.map(tiem => {
         // console.log(tiem.districtName)
         return tiem.districtName;
       });
       return Array.from(new Set(tmp));
     }
+
   },
   methods: {
     ...mapActions(["getCinemaLis"]),
@@ -113,6 +113,7 @@ export default {
           this.creaList.push(this.copycinemaList[i]);
         }
       }
+
     },
     // 点击搜索或取消按钮
     searchCancel() {
@@ -152,7 +153,8 @@ export default {
   mounted() {
     this.getCinemaLis();
     let bs = new BScroll(".search-box", {
-      probeType: 3
+      probeType: 3,
+      click : true
     });
   }
 };
@@ -182,7 +184,7 @@ export default {
         @include border-bottom;
         padding: 12px 0 8px 0;
         font-size: 14px;
-
+        position: relative;
         .cinemas-money {
           margin-right: 20px;
           margin-left: 10px;
@@ -193,8 +195,7 @@ export default {
           }
         }
         .a {
-          overflow: hidden;
-
+          display: block;
           .cinemas-site {
             margin: 15px 0 5px 0;
             color: #797d82;
@@ -296,17 +297,6 @@ export default {
       }
     }
   }
-  // <div v-else>
-  //       <ul class="seek-hide">
-  //         <li class="seek-boox" v-for="item in showList" :key="item">
-  //           <span class="seek-name">{{item.name}}</span>
-  //           <span class="seek-money">{{item.lowPrice/100}}元起</span>
-  //           <div class="seek-site">
-  //             {{item.address}}
-  //           </div>
-  //           </li>
-  //       </ul>
 }
 </style>
 
-      </div>

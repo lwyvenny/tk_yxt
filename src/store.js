@@ -12,35 +12,34 @@ let store = new Vuex.Store({
     filmList: [], // 影片列表
     filmTotal: 1,
     filmListT: [],
-    cinemaList: [], //影院列表
-    copycinemaList: [], //copy影院列表
-    cinemaDetails: [], //影院详情
-    playDetails : []  //获取影院的播放详情
+    cinemaList: [], // 影院列表
+    copycinemaList: [], // copy影院列表
+    cinemaDetails: [], // 影院详情
+    playDetails: [] // 获取影院的播放详情
   },
   mutations: {
-    setFilmList(state, payload) {
+    setFilmList (state, payload) {
       state.filmList = payload
     },
-    setFilmTotal(state, payload) {
+    setFilmTotal (state, payload) {
       state.filmTotal = payload
     },
-    setFilmListT(state, payload) {
+    setFilmListT (state, payload) {
       state.filmListT = payload
     },
-    setCinemaList(state, payload) {
+    setCinemaList (state, payload) {
       state.cinemaList = payload
-
     },
-    copycinemaList(state, payload) {
+    copycinemaList (state, payload) {
       state.copycinemaList = payload
     },
-    setcinemaDetails(state, payload) {
+    setcinemaDetails (state, payload) {
       state.cinemaDetails = payload
     }
   },
   actions: {
 
-    getFilmList({
+    getFilmList ({
       commit,
       state
     }, payload) {
@@ -64,7 +63,7 @@ let store = new Vuex.Store({
         }
       })
     },
-    getFilmListT({
+    getFilmListT ({
       commit,
       state
     }, payload) {
@@ -88,7 +87,7 @@ let store = new Vuex.Store({
         }
       })
     },
-    getCinemaLis({
+    getCinemaLis ({
       commit,
       state
     }, payload) {
@@ -98,17 +97,17 @@ let store = new Vuex.Store({
         message: '加载中...'
       })
       Axios.get('https://m.maizuo.com/gateway', {
-          params: {
-            cityId: 440300,
-            ticketFlag: 1,
-            pageSize: 5,
-            k: 9508163
-          },
-          headers: {
-            'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
-            'X-Host': 'mall.film-ticket.cinema.list'
-          }
-        })
+        params: {
+          cityId: 440300,
+          ticketFlag: 1,
+          pageSize: 5,
+          k: 9508163
+        },
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
+          'X-Host': 'mall.film-ticket.cinema.list'
+        }
+      })
         .then(response => {
           let result = response.data
           if (result.status === 0) {
@@ -119,28 +118,28 @@ let store = new Vuex.Store({
           }
         })
     },
-    //这里请求影院数据详情
-    getcinemaDetails({
+    // 这里请求影院数据详情
+    getcinemaDetails ({
       commit,
       state
     }, payload) {
       Axios.get('https://m.maizuo.com/gateway', {
-          params: {
-            cinemaId: payload, //城市id
-            k: 6351124 // 不知道
-          },
-          headers: {
-            'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
-            'X-Host': 'mall.film-ticket.cinema.info'
-          }
-        })
+        params: {
+          cinemaId: payload, // 城市id
+          k: 6351124 // 不知道
+        },
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
+          'X-Host': 'mall.film-ticket.cinema.info'
+        }
+      })
         .then(response => {
           let result = response.data
           if (result.status === 0) {
             commit('setcinemaDetails', result.data.cinema)
           }
         })
-    },
+    }
 
   }
 })

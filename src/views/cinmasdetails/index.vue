@@ -49,40 +49,40 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  name: "CinemaInfo",
-  data() {
+  name: 'CinemaInfo',
+  data () {
     return {
-      siteId: "" //影院Id
-    };
+      siteId: '' // 影院Id
+    }
   },
   computed: {
-    ...mapState(["cinemaDetails"])
+    ...mapState(['cinemaDetails'])
   },
   methods: {
-    ...mapActions(["getcinemaDetails"])
+    ...mapActions(['getcinemaDetails'])
   },
-  created() {
-    this.siteId = this.$route.params.id;
-    this.getcinemaDetails(this.siteId);
-    new Swiper(".swiper-contaliner", {
-      slidesPerView : 3,
-      freeMode : true,
-      loop : false,
-      slideToClickedSlide : true,
-      centeredSildes : true,
-      observeParents : true,
-      on : {
-        slideChange : function() {
-          _this.showDateIndex = this.activeIndex;
-          _this.fn();
-          _this.getScheduleList();
+  created () {
+    this.siteId = this.$route.params.id
+    this.getcinemaDetails(this.siteId)
+    new Swiper('.swiper-contaliner', {
+      slidesPerView: 3,
+      freeMode: true,
+      loop: false,
+      slideToClickedSlide: true,
+      centeredSildes: true,
+      observeParents: true,
+      on: {
+        slideChange: function () {
+          _this.showDateIndex = this.activeIndex
+          _this.fn()
+          _this.getScheduleList()
         }
       }
     })
   }
-};
+}
 </script>
 <style lang="scss">
 @import "../../assets/styles/reset.scss";

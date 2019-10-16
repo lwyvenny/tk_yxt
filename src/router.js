@@ -56,7 +56,7 @@ export default new Router({
     },
     {
       path: '/cinemas/:id',
-      component :CinmeasDetails
+      component: CinmeasDetails
     }
   ]
 })

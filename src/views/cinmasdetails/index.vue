@@ -20,26 +20,27 @@
           <div class="cinemas-site">
             <i class="iconfont icon-dizhi"></i>
             <div class="site">{{cinemaDetails.address}}</div>
-            <i class="iconfont icon-dizhi phone"></i>
+            <i class="iconfont icon-dianhua3 phone"></i>
           </div>
-          <div class="swiper-contaliner">
-            <div class="swiper-wraper">
+          <div class="swiper-container box">
+            <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <img
                   src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg"
                   alt
                 />
+              </div>
+              <div class="swiper-slide">
                 <img
                   src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg"
                   alt
                 />
+              </div>
+              <div class="swiper-slide">
                 <img
                   src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg"
                   alt
                 />
-                <img src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg" alt="">
-                <img src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg" alt="">
-                <img src="https://pic.maizuo.com/usr/movie/5ba8d5bad40b57054a2d5a365c8501ac.jpg" alt="">
               </div>
             </div>
           </div>
@@ -50,6 +51,8 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import Swiper from "swiper";
+import "swiper/dist/css/swiper.css";
 export default {
   name: "CinemaInfo",
   data() {
@@ -66,21 +69,14 @@ export default {
   created() {
     this.siteId = this.$route.params.id;
     this.getcinemaDetails(this.siteId);
-    new Swiper(".swiper-contaliner", {
-      slidesPerView : 3,
-      freeMode : true,
-      loop : false,
-      slideToClickedSlide : true,
-      centeredSildes : true,
-      observeParents : true,
-      on : {
-        slideChange : function() {
-          _this.showDateIndex = this.activeIndex;
-          _this.fn();
-          _this.getScheduleList();
-        }
-      }
-    })
+  },
+  mounted() {
+    new Swiper(".swiper-container", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      slideToClickedSlide: true,
+      centeredSlides: true
+    });
   }
 };
 </script>
@@ -89,6 +85,27 @@ export default {
 .page-cinmeasdetails {
   height: 100%;
   width: 100%;
+  .box {
+    width: 100%;
+    height: 120px;
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 300ms;
+      transform: scale(0.8);
+      img {
+        width: 100%;
+      }
+    }
+    .swiper-slide-active,
+    .swiper-slide-duplicate-active {
+      transform: scale(1);
+    }
+  }
   .null {
     margin: 25px 0 0 15px;
   }

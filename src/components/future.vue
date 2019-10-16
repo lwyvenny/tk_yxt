@@ -2,7 +2,7 @@
   <div class="future-list">
     <p class="film-title">即将上映</p>
     <ul>
-      <router-link tag="li" :to="`/film/${film.filmId}`" v-for="film in filmListT" :key="film.filmId">
+      <router-link tag="li" :to="`/film/${film.filmId}?img=${film.poster}`" v-for="film in filmListT" :key="film.filmId">
         <div class="left">
           <img :src="film.poster">
         </div>
@@ -42,9 +42,9 @@ export default {
       return tmp.join('.')
     },
     getTime (premiereAt) {
-      let time = new Date(2019, 9, 31)
-      time.setTime(time.getTime() + premiereAt)
-      return time.getFullYear() + '年' + time.getMonth() + '月' + time.getDate() + '日'
+      let time = new Date(1970, 0, 1)
+      time.setTime(time.getTime() + premiereAt * 1000)
+      return time.getFullYear() + '年' + (time.getMonth() + 1) + '月' + time.getDate() + '日'
     },
     handleMoreT () {
       let totalPage = Math.ceil(this.filmTotal / 5)
@@ -53,7 +53,8 @@ export default {
       }
       this.curPageNumT++
       this.getFilmListT({
-        pageNum: this.curPageNumT
+        pageNum: this.curPageNumT,
+        pageSize: 3
       })
     }
   },

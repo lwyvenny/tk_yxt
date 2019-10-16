@@ -8,7 +8,7 @@
       <div class="film-box">
         <div class="item-img">
           <img
-            :src="detail.poster"
+            :src="`${this.$route.query.img}`"
           />
         </div>
         <div class="item-info">
@@ -16,18 +16,18 @@
             <li>类型：{{detail.category}}</li>
             <li>演员：{{ detail.actors ? getFilmActors(detail.actors) : '' }}</li>
             <li>语言：{{ detail.language ? detail.language : '汉语普通话'}}</li>
-            <li>片场：{{detail.runtime}}</li>
-            <li>上映：2019-09-30</li>
+            <li>片长：{{detail.runtime}}分钟</li>
+            <li>上映：{{getTime(detail.premiereAt)}}</li>
             <li>影片类型：{{getType(detail.filmType)}} </li>
           </ul>
         </div>
-        <div class="score">7.0</div>
+        <div class="score">{{getScore(detail.grade)}}</div>
       </div>
       <div class="buyP">立即购票</div>
     </div>
     <div class="juqing">
       <p class="ju">剧情</p>
-      <p class="juqing-info synopsis" :style="{ height : isOK ? '60px' : '' }">
+      <p class="juqing-info synopsis" :style="{ height : isOK ? '60px' : '' }"> <!-- 控制剧情内容 -->
         <span>{{detail.synopsis ? detail.synopsis : '暂无'}}</span>
       </p>
       <i @click="down" class="film-synopsis" v-if="isOK"></i>
@@ -35,7 +35,9 @@
     </div>
     <div class="juzhao juqing">
       <p class="ju">片花 剧照</p>
-      <p class="juqing-info">暂无剧照</p>
+      <p class="juqing-info img-list">
+        <img v-for="item in detail.photos" :key="item" :src="`${item}`" >
+      </p>
     </div>
     <div class="juqing juzhao">
       <p class="ju">综合评论</p>
@@ -190,6 +192,17 @@
   }
   .juzhao {
     margin-top: 10px;
+    .img-list{
+      overflow-x: auto;
+      display: flex;
+      flex-wrap: nowrap;
+      img{
+        width: 150px;
+        height: 100px;
+        margin-right: 10px;
+        flex-shrink: 0
+      }
+    }
   }
 }
 </style>
@@ -202,25 +215,7 @@ export default {
   data () {
     return {
       isOK: true,
-      filmInfo: [],
-      filmInfo2: [],
       detail: {}
-    }
-  },
-  watch: {
-    filmInfo2 (val) {
-      val.map(item => {
-        if (this.$route.params.id == item.filmId) {
-          this.detail = item
-        }
-      })
-    },
-    filmInfo (val) {
-      val.map(item => {
-        if (this.$route.params.id == item.filmId) {
-          this.detail = item
-        }
-      })
     }
   },
   methods: {
@@ -230,12 +225,12 @@ export default {
     up () {
       this.isOK = true
     },
-    getType (type) {
+    getType (type) { // 获取影片类型  2D/3D
       for (var key in type) {
         return type[key]
       }
     },
-    getFilmActors (actors) {
+    getFilmActors (actors) { // 获取演员列表
       let tmp = actors.map(item => {
         return item.name
       })
@@ -243,43 +238,33 @@ export default {
     },
     handleback () {
       this.$router.go(-1)
+    },
+    getTime (premiereAt) { // 获取上映时间
+      let time = new Date(1970, 0, 1)
+      time.setTime(time.getTime() + premiereAt * 1000)
+      return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
+    },
+    getScore (score) { // 评分
+      if (score) {
+        score = Number(score)
+        return score.toFixed(1)
+      }
     }
   },
   created () {
     axios.get('https://m.maizuo.com/gateway', {
       params: {
-        cityId: 440300, // 城市ID
-        pageNum: 1, // 页码
-        pageSize: 29, // 每页显示条数
-        type: 1, // 影片类型，正在热映1，即将上映2
-        k: 9818915
+        filmId: this.$route.params.id,
+        k: 1700185
       },
       headers: {
-        'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"157079477920169166422068"}',
-        'X-Host': 'mall.film-ticket.film.list'
+        'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"157101801120925080666158"}',
+        'X-Host': 'mall.film-ticket.film.info'
       }
     }).then(response => {
       let result = response.data
       if (result.status === 0) {
-        this.filmInfo = result.data.films
-      }
-    })
-    axios.get('https://m.maizuo.com/gateway', {
-      params: {
-        cityId: 440300, // 城市ID
-        pageNum: 1, // 页码
-        pageSize: 24, // 每页显示条数
-        type: 2, // 影片类型，正在热映1，即将上映2
-        k: 9818915
-      },
-      headers: {
-        'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"157079477920169166422068"}',
-        'X-Host': 'mall.film-ticket.film.list'
-      }
-    }).then(response => {
-      let result = response.data
-      if (result.status === 0) {
-        this.filmInfo2 = result.data.films
+        this.detail = result.data.film
       }
     })
   }

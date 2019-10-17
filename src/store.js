@@ -17,7 +17,9 @@ let store = new Vuex.Store({
     copycinemaList: [], // copy影院列表
     cinemaDetails: [], // 影院详情
     playDetails: [], // 获取影院的播放详情
-    cities: []
+    cities: [],
+    cityId:440300,
+    cityName:'深圳'
   },
   getters: {
     cityList (state) {
@@ -41,6 +43,9 @@ let store = new Vuex.Store({
     }
   },
   mutations: {
+    setCityId (state, payload) {
+      state.CityId = payload
+    },
     setFilmList (state, payload) {
       state.filmList = payload
     },
@@ -59,11 +64,21 @@ let store = new Vuex.Store({
     setcinemaDetails (state, payload) {
       state.cinemaDetails = payload
     },
-    setCities (state, payload){
+    setCities (state, payload) {
       state.cities = payload
+    },
+    setFilmListEm(state){
+      state.filmList = [],
+      state.filmListT = []
+    },
+    setCityId(state,payload){
+      state.cityId = payload
+    },
+    setCityName(state,payload){
+      state.cityName = payload
     }
   },
-
+ 
   actions: {
     getCities ({ commit, state }, payload) {
       Axios.get('https://m.maizuo.com/gateway?k=6826501', {
@@ -81,7 +96,7 @@ let store = new Vuex.Store({
     getFilmList ({ commit, state }, payload) {
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
-          cityId: 440300, // 城市ID
+          cityId: payload.cityId, // 城市ID
           pageNum: payload.pageNum, // 页码
           pageSize: 5, // 每页显示条数
           type: payload.type, // 影片类型，正在热映1，即将上映2

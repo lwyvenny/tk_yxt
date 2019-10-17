@@ -30,7 +30,7 @@ import { mapState, mapActions,mapMutations } from 'vuex'
 export default {
   name: 'Now',
   computed: {
-    ...mapState(['filmList', 'filmTotal','cityId','cityName'])
+    ...mapState(['filmList', 'filmTotal','cityId'])
   },
   data () {
     return {

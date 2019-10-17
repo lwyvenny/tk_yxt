@@ -25,7 +25,7 @@ import { mapState, mapActions,mapMutations } from 'vuex'
 export default {
   name: 'Future',
   computed: {
-    ...mapState(['filmListT', 'filmTotal'])
+    ...mapState(['filmListT', 'filmTotal','cityId'])
 
   },
   data () {
@@ -56,7 +56,7 @@ export default {
       this.getFilmListT({
         pageNum: this.curPageNumT,
         pageSize: 3,
-        cityId:this.$route.query.cityId || 440300
+        cityId:this.cityId
       })
     }
   },
@@ -65,7 +65,7 @@ export default {
       this.getFilmListT({
         pageNum: this.curPageNumT,
         pageSize: 3,
-        cityId:this.$route.query.cityId || 440300
+        cityId:this.cityId
       })
     } else {
       this.curPageNumT = this.filmListT.length / 3

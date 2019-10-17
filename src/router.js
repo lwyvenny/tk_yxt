@@ -47,7 +47,7 @@ export default new Router({
       component: City
     },
     {
-      path: './film/:id',
+      path: '/film/:id',
       component: Film
     },
     {

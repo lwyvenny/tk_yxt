@@ -2,7 +2,7 @@
   <div class="now-list">
     <p class="film-title">正在热映</p>
     <ul>
-      <li v-for="film in filmList" :key="film.filmId">
+      <router-link tag="li" :to="`/film/${film.filmId}?img=${film.poster}`" v-for="film in filmList" :key="film.filmId">
         <div class="left">
           <img :src="film.poster" />
         </div>
@@ -14,10 +14,10 @@
           <div
             class="grade"
             :style="{ visibility : film.grade ? 'initial' : 'hidden' }"
-          >{{film.grade}}</div>
+          >{{getScore(film.grade)}}</div>
           <button class="buy">购票</button>
         </div>
-      </li>
+      </router-link>
     </ul>
     <div class="more" ref="more">
       <span @click="handleMore">查看更多影片</span>
@@ -56,6 +56,12 @@ export default {
         pageNum: this.curPageNum,
         type: this.type
       })
+    },
+    getScore (score) {
+      if (score) {
+        score = Number(score)
+        return score.toFixed(1)
+      }
     }
   },
   created () {
@@ -64,6 +70,8 @@ export default {
         pageNum: this.curPageNum,
         type: this.type
       })
+    } else {
+      this.curPageNum = this.filmList.length / 5
     }
   }
 }

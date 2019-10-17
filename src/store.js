@@ -71,7 +71,7 @@ let store = new Vuex.Store({
         params: {
           cityId: 440300, // 城市ID
           pageNum: payload.pageNum, // 页码
-          pageSize: 3, // 每页显示条数
+          pageSize: payload.pageSize, // 每页显示条数
           type: 2, // 影片类型，正在热映1，即将上映2
           k: 9818915
         },

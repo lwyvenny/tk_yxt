@@ -50,10 +50,12 @@
     <!-- 搜索展示版 -->
     <div v-else>
       <ul class="seek-hide">
-        <li class="seek-boox" v-for="item in showList" :key="item">
+        <li class="seek-boox" v-for="item in showList" :key="item.cinemaId">
+          <router-link class="a" :to="`/cinemas/${item.cinemaId}`">
           <span class="seek-name">{{item.name}}</span>
           <span class="seek-money">￥{{item.lowPrice/100}}元起</span>
           <div class="seek-site">{{item.address}}</div>
+          </router-link>
         </li>
       </ul>
     </div>

@@ -23,7 +23,8 @@
         </div>
         <div class="score">{{getScore(detail.grade)}}</div>
       </div>
-      <div class="buyP">立即购票</div>
+      <!-- <div class="buyP">立即购票</div> -->
+      <router-link to='/cinemas' tag="div" class="buyP">立即购票</router-link>
     </div>
     <div class="juqing">
       <p class="ju">剧情</p>

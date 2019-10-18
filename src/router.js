@@ -14,7 +14,7 @@ import CinmeasDetails from './views/cinmasdetails/index.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -30,7 +30,10 @@ export default new Router({
         },
         {
           path: 'center',
-          component: Center
+          component: Center,
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: '',
@@ -40,7 +43,7 @@ export default new Router({
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
     },
     {
       path: '/city',
@@ -60,3 +63,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let userinfo = window.localStorage.getItem('userinfo')
+  if (to.meta.needLogin && !userinfo) {
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
+})
+export default router

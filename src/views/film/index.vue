@@ -137,6 +137,7 @@
   .juqing {
     .synopsis{
       overflow: hidden;
+      min-height: 60px;
     }
     background: #fff;
     .ju {

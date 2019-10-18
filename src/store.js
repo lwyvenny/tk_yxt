@@ -247,7 +247,6 @@ let store = new Vuex.Store({
       })
         .then(response => {
           let result = response.data
-          console.log(payload)
           if (result.status === 0) {
             commit('setcinemaFilm', result.data.schedules)
           }

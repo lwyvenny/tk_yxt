@@ -59,7 +59,7 @@ let store = new Vuex.Store({
     setcinemaDetails (state, payload) {
       state.cinemaDetails = payload
     },
-    setCities (state, payload){
+    setCities (state, payload) {
       state.cities = payload
     }
   },

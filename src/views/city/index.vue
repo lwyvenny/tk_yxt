@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState,mapMutations,mapActions, mapGetters } from 'vuex'
+import { mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'City',
@@ -50,8 +50,8 @@ export default {
     ...mapGetters(['cityList'])
   },
   methods: {
-    
-    ...mapMutations(['setCityId','setFilmListEm']),
+
+    ...mapMutations(['setCityId', 'setFilmListEm']),
     ...mapActions(['getCities']),
     goBack () {
       this.$router.back()
@@ -64,8 +64,8 @@ export default {
     },
     cityId (item) {
       this.$store.commit('setFilmListEm')
-      this.$store.commit('setCityId',item.cityId)
-      this.$store.commit('setCityName',item.name)
+      this.$store.commit('setCityId', item.cityId)
+      this.$store.commit('setCityName', item.name)
       this.$router.push(this.$route.query.path)
     }
 

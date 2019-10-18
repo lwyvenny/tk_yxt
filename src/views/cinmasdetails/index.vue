@@ -88,106 +88,106 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
-import Swiper from "swiper";
-import "swiper/dist/css/swiper.css";
-import moment from "moment";
-import { format } from "path";
+import { mapState, mapActions } from 'vuex'
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.css'
+import moment from 'moment'
+import { format } from 'path'
 export default {
-  name: "CinemaInfo",
-  data() {
+  name: 'CinemaInfo',
+  data () {
     return {
-      siteId: "", // 影院Id
-      filmintro: "", // 保存影片简介
-      showDate: "", // 保存时间日期
-      cur: "0", //
+      siteId: '', // 影院Id
+      filmintro: '', // 保存影片简介
+      showDate: '', // 保存时间日期
+      cur: '0', //
       date: 1571328000 // 用于保存传入的时间戳，用于下次请求的参数
-    };
+    }
   },
   computed: {
-    ...mapState(["cinemaDetails"]),
-    ...mapState(["filmgather"]),
-    ...mapState(["cinemaFilm"])
+    ...mapState(['cinemaDetails']),
+    ...mapState(['filmgather']),
+    ...mapState(['cinemaFilm'])
   },
   methods: {
-    ...mapActions(["getcinemaDetails"]),
-    ...mapActions(["getfilmgather"]),
-    ...mapActions(["getcinemaFilm"]),
-    fn1(date) {
-      let dataNum = date * 1000;
-      let a = dataNum - new Date();
-      moment.locale("zh-cn");
-      return moment(a).calendar("", {
+    ...mapActions(['getcinemaDetails']),
+    ...mapActions(['getfilmgather']),
+    ...mapActions(['getcinemaFilm']),
+    fn1 (date) {
+      let dataNum = date * 1000
+      let a = dataNum - new Date()
+      moment.locale('zh-cn')
+      return moment(a).calendar('', {
         // 调用moment插件事件格式化时间
-        sameDay: "[今天]",
-        nextDay: "[明天]",
-        nextWeek: "ddd",
-        lastWeek: "ddd",
-        sameElse: "ddd"
-      });
+        sameDay: '[今天]',
+        nextDay: '[明天]',
+        nextWeek: 'ddd',
+        lastWeek: 'ddd',
+        sameElse: 'ddd'
+      })
     },
-    fn2(date) {
-      let dataNum = date * 1000;
-      return moment(dataNum).format("MMMDo");
+    fn2 (date) {
+      let dataNum = date * 1000
+      return moment(dataNum).format('MMMDo')
     },
-    fn3(index, date) {
-      this.date = date;
-      this.cur = index;
+    fn3 (index, date) {
+      this.date = date
+      this.cur = index
       this.getcinemaFilm({
         filmid: this.filmintro.filmId,
         date: this.date
-      });
+      })
     },
-    fn4(date) {
-      let dataNum = date * 1000;
-      return moment(dataNum).format("h:mm");
+    fn4 (date) {
+      let dataNum = date * 1000
+      return moment(dataNum).format('h:mm')
     },
-    fn5(date) {
-      let dataNum = date * 1000;
-      return moment(dataNum).format("h:mm");
+    fn5 (date) {
+      let dataNum = date * 1000
+      return moment(dataNum).format('h:mm')
     },
-    rollback() {
-      this.$router.back();
+    rollback () {
+      this.$router.back()
     }
   },
-  created() {
-    let _this = this;
+  created () {
+    let _this = this
 
-    this.siteId = this.$route.params.id;
+    this.siteId = this.$route.params.id
 
-    this.getcinemaDetails(this.siteId);
+    this.getcinemaDetails(this.siteId)
     this.getfilmgather({
       callback: () => {
         this.$nextTick(() => {
-          this.filmintro = this.filmgather[0]; // 初始化影片详情
-          this.showDate = this.filmgather[0].showDate; // 初始化时间
+          this.filmintro = this.filmgather[0] // 初始化影片详情
+          this.showDate = this.filmgather[0].showDate // 初始化时间
           this.getcinemaFilm({
             filmid: this.filmintro.filmId,
             date: this.date
-          });
+          })
 
-          new Swiper(".swiper-container", {
+          new Swiper('.swiper-container', {
             slidesPerView: 3,
             spaceBetween: 30,
             slideToClickedSlide: true,
             centeredSlides: true,
             on: {
-              slideChangeTransitionEnd: function() {
-                _this.filmintro = _this.filmgather[this.activeIndex];
-                _this.showDate = _this.filmintro.showDate;
+              slideChangeTransitionEnd: function () {
+                _this.filmintro = _this.filmgather[this.activeIndex]
+                _this.showDate = _this.filmintro.showDate
                 _this.getcinemaFilm({
                   filmid: _this.filmintro.filmId,
                   date: _this.date
-                });
+                })
               }
             }
-          });
-        });
+          })
+        })
       },
       areaId: this.siteId
-    });
+    })
   }
-};
+}
 </script>
 <style lang="scss">
 @import "../../assets/styles/reset.scss";

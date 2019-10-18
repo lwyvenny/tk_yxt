@@ -85,10 +85,10 @@
 
 <script>
 export default {
-  name:'Center',
+  name: 'Center',
   data () {
     return {
-      userName : JSON.parse(window.localStorage.getItem('userinfo'))
+      userName: JSON.parse(window.localStorage.getItem('userinfo'))
     }
   }
 }

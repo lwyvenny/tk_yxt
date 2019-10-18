@@ -3,7 +3,7 @@
   <div class="page-home">
     <div class="header">
       <img src="http://m.189mv.cn/xtouch/images/newlogo.png">
-      
+
       <span @click="handle">{{cityName}}</span>
     </div>
     <router-view></router-view>
@@ -73,13 +73,13 @@
 </style>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
-  name:'Home',
-  computed : {
-    ...mapState(['cityId','cityName'])
+  name: 'Home',
+  computed: {
+    ...mapState(['cityId', 'cityName'])
   },
-  methods:{
+  methods: {
     handle () {
       let path = this.$route.fullPath
       this.$router.push(`/city?path=${path}`)

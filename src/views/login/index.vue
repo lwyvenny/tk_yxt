@@ -78,13 +78,13 @@ export default {
   name: 'Login',
   data () {
     return {
-      userName : ''
+      userName: ''
     }
   },
   methods: {
     handleLogin () {
       let redirect = this.$route.query.redirect || '/films'
-      window.localStorage.setItem('userinfo', JSON.stringify({ name: this.userName  }))
+      window.localStorage.setItem('userinfo', JSON.stringify({ name: this.userName }))
       this.$router.replace(redirect)
     },
     back () {

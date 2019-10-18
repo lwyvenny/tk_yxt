@@ -236,7 +236,7 @@ let store = new Vuex.Store({
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
           filmId: payload.filmid,
-          cinemaId: 8119,
+          cinemaId: payload.cinemaId,
           date: payload.date,
           k: 8213169
         },
@@ -247,6 +247,7 @@ let store = new Vuex.Store({
       })
         .then(response => {
           let result = response.data
+          console.log(payload)
           if (result.status === 0) {
             commit('setcinemaFilm', result.data.schedules)
           }

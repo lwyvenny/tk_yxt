@@ -135,7 +135,8 @@ export default {
       this.cur = index
       this.getcinemaFilm({
         filmid: this.filmintro.filmId,
-        date: this.date
+        date: this.date,
+        cinemaId: this.siteId
       })
     },
     fn4 (date) {
@@ -163,6 +164,7 @@ export default {
           this.showDate = this.filmgather[0].showDate // 初始化时间
           this.getcinemaFilm({
             filmid: this.filmintro.filmId,
+            cinemaId : this.siteId,
             date: this.date
           })
 

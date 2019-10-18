@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions,mapMutations } from 'vuex'
 export default {
   name: 'Now',
   computed: {
-    ...mapState(['filmList', 'filmTotal'])
+    ...mapState(['filmList', 'filmTotal','cityId'])
   },
   data () {
     return {
@@ -39,6 +39,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setFilmListEm']),
     ...mapActions(['getFilmList']),
     getActors (actors) {
       let tmp = actors.map(item => {
@@ -54,7 +55,8 @@ export default {
       this.curPageNum++
       this.getFilmList({
         pageNum: this.curPageNum,
-        type: this.type
+        type: this.type,
+        cityId:this.cityId
       })
     },
     getScore (score) {
@@ -68,7 +70,8 @@ export default {
     if (this.filmList.length <= 0) {
       this.getFilmList({
         pageNum: this.curPageNum,
-        type: this.type
+        type: this.type,
+        cityId:this.cityId
       })
     } else {
       this.curPageNum = this.filmList.length / 5

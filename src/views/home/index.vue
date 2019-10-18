@@ -3,14 +3,15 @@
   <div class="page-home">
     <div class="header">
       <img src="http://m.189mv.cn/xtouch/images/newlogo.png">
-      <router-link to="/city">深圳</router-link>
+      
+      <span @click="handle">{{cityName}}</span>
     </div>
     <router-view></router-view>
     <ul class="nav">
       <router-link tag="li" to="/films">
         影片
       </router-link>
-      <router-link tag="li" to="/cinemas">
+      <router-link tag="li" :to="`/cinemas`">
         影院
       </router-link>
       <router-link tag="li" to="/center">
@@ -37,7 +38,7 @@
       width: 71px;
       position: absolute;
     }
-    a{
+    span{
       @include tri;
       float: right;
       padding-right: 35px;
@@ -70,3 +71,19 @@
   }
 }
 </style>
+
+<script>
+import {mapState} from 'vuex'
+export default {
+  name:'Home',
+  computed : {
+    ...mapState(['cityId','cityName'])
+  },
+  methods:{
+    handle () {
+      let path = this.$route.fullPath
+      this.$router.push(`/city?path=${path}`)
+    }
+  }
+}
+</script>

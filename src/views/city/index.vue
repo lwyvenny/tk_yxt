@@ -1,7 +1,6 @@
 <template>
-  <div class="page-city" ref="scroll">
+  <div class="page-city">
     <!-- 一级路由页面 -->
-      <div>
         <div class="header">
           <p><i class="iconfont icon-dayu" @click="goBack"></i>选择城市</p>
         </div>
@@ -10,7 +9,7 @@
             <tbody>
               <p>热门城市</p>
               <div v-for="item in cityList" :key="item.list">
-                <div v-for="city in item.list" :key="city.cityId">
+                <div v-for="city in item.list" :key="city.cityId" @click="cityId(city)" >
                   <div class="tr">
                     <div class="td" v-if="city.isHot">
                       {{ city.name }}
@@ -33,19 +32,16 @@
 
             <p style=" color: #83139B;font-size:16px;font-weight:600;">{{ item.py }}</p>
             <ul>
-              <li v-for="city in item.list" :key="city.cityId">{{ city.name }}</li>
+              <li v-for="city in item.list" :key="city.cityId" @click="cityId(city)" >{{ city.name }}</li>
             </ul>
 
         </table>
         </div>
       </div>
-
-  </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import Bscroll from 'better-scroll'
+import { mapState,mapMutations,mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'City',
@@ -54,6 +50,8 @@ export default {
     ...mapGetters(['cityList'])
   },
   methods: {
+    
+    ...mapMutations(['setCityId','setFilmListEm']),
     ...mapActions(['getCities']),
     goBack () {
       this.$router.back()
@@ -62,17 +60,15 @@ export default {
       let dom = document.getElementById(`city-${item.py}`)
       let top = dom.offsetTop
       this.$refs.box.scrollTop = top - 20
-      console.log(this.$refs.box.scrollTop)
+      // console.log(this.$refs.box.scrollTop)
+    },
+    cityId (item) {
+      this.$store.commit('setFilmListEm')
+      this.$store.commit('setCityId',item.cityId)
+      this.$store.commit('setCityName',item.name)
+      this.$router.push(this.$route.query.path)
     }
 
-  },
-  mounted () {
-    let bs = new Bscroll(this.$refs.scroll, {
-      probeType: 2
-    })
-    bs.on('scroll', () => {
-      console.log(123)
-    })
   },
   created () {
     this.getCities()
@@ -168,6 +164,7 @@ export default {
       position: absolute;
       top: 544px;
       background: #ececec;
+      height: 55%;
       overflow-x: scroll
     }
     .showCity{

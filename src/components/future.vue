@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions,mapMutations } from 'vuex'
 export default {
   name: 'Future',
   computed: {
-    ...mapState(['filmListT', 'filmTotal'])
+    ...mapState(['filmListT', 'filmTotal','cityId'])
 
   },
   data () {
@@ -34,6 +34,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setFilmListEm']),
     ...mapActions(['getFilmListT']),
     getActors (actors) {
       let tmp = actors.map(item => {
@@ -54,7 +55,8 @@ export default {
       this.curPageNumT++
       this.getFilmListT({
         pageNum: this.curPageNumT,
-        pageSize: 3
+        pageSize: 3,
+        cityId:this.cityId
       })
     }
   },
@@ -62,10 +64,20 @@ export default {
     if (this.filmListT.length <= 0) {
       this.getFilmListT({
         pageNum: this.curPageNumT,
-        pageSize: 3
+        pageSize: 3,
+        cityId:this.cityId
       })
     } else {
       this.curPageNumT = this.filmListT.length / 3
+    }
+    if(this.filmListT.length > 0 && this.$route.query.cityId){
+      this.$store.commit('setFilmListEm')
+      console.log(this.filmList)
+      this.getFilmList({
+        pageNum: this.curPageNumT,
+        type: this.type,
+        cityId:this.$route.query.cityId || 440300
+      })
     }
   }
 

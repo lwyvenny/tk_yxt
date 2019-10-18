@@ -19,7 +19,9 @@ let store = new Vuex.Store({
     playDetails: [], // 获取影院的播放详情
     cities: [],
     cityId:440300,
-    cityName:'深圳'
+    cityName:'深圳',
+    filmgather: [], // 影院电影列表
+    cinemaFilm: [] // 影院电影详情
   },
   getters: {
     cityList (state) {
@@ -76,11 +78,20 @@ let store = new Vuex.Store({
     },
     setCityName(state,payload){
       state.cityName = payload
+    },
+    setfilmgather (state, payload) {
+      state.filmgather = payload
+    },
+    setcinemaFilm (state, payload) {
+      state.cinemaFilm = payload
     }
   },
- 
+
   actions: {
-    getCities ({ commit, state }, payload) {
+    getCities ({
+      commit,
+      state
+    }, payload) {
       Axios.get('https://m.maizuo.com/gateway?k=6826501', {
         headers: {
           'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156975031917686675327153"}',
@@ -93,7 +104,10 @@ let store = new Vuex.Store({
         }
       })
     },
-    getFilmList ({ commit, state }, payload) {
+    getFilmList ({
+      commit,
+      state
+    }, payload) {
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
           cityId: payload.cityId, // 城市ID
@@ -149,7 +163,7 @@ let store = new Vuex.Store({
       })
       Axios.get('https://m.maizuo.com/gateway', {
         params: {
-          cityId: 440300,
+          cityId: payload,
           ticketFlag: 1,
           pageSize: 5,
           k: 9508163
@@ -190,8 +204,57 @@ let store = new Vuex.Store({
             commit('setcinemaDetails', result.data.cinema)
           }
         })
-    }
+    },
+    // 影院 电影列表
+    getfilmgather ({
+      commit,
+      state
+    }, payload) {
+      Axios.get('https://m.maizuo.com/gateway', {
+        params: {
+          cinemaId: payload.areaId,
+          k: 3009503
+        },
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
+          'X-Host': 'mall.film-ticket.film.cinema-show-film'
+        }
+      })
+        .then(response => {
+          console.log()
+          let result = response.data
+          if (result.status === 0) {
+            commit('setfilmgather', result.data.films)
 
+            payload.callback()
+          }
+        })
+    },
+
+    // 获取影院电影列表详情
+    getcinemaFilm ({
+      commit,
+      state
+    }, payload) {
+      Axios.get('https://m.maizuo.com/gateway', {
+        params: {
+          filmId: payload.filmid,
+          cinemaId: 8119,
+          date: payload.date,
+          k: 8213169
+        },
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"156976276517673790424440"}',
+          'X-Host': 'mall.film-ticket.schedule.list'
+        }
+      })
+        .then(response => {
+          let result = response.data
+          if (result.status === 0) {
+            commit('setcinemaFilm', result.data.schedules)
+          }
+        })
+    }
   }
 })
 

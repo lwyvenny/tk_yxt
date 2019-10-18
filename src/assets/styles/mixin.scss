@@ -81,3 +81,21 @@
     transform: rotate(45deg);
   }
 }
+
+
+@mixin border {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    // border: 1px solid rgba(210,214,220,.5);
+    border: 1px solid #ff5f16;
+    // box-sizing: border-box;
+    // border-radius: 4px;
+  }
+}
